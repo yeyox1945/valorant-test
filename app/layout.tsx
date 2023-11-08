@@ -5,6 +5,7 @@ import "./globals.css";
 import "@mantine/core/styles.css";
 import { MantineProvider, ColorSchemeScript } from "@mantine/core";
 import { appTheme } from "./config/theme/appTheme";
+import { Providers } from "@/redux/provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -25,7 +26,7 @@ export default function RootLayout({
       </head>
       <body className={inter.className}>
         <MantineProvider defaultColorScheme="dark" theme={appTheme}>
-          {children}
+          <Providers>{children}</Providers>
         </MantineProvider>
       </body>
     </html>

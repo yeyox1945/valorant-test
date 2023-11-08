@@ -1,4 +1,4 @@
-interface LeaderboardResponse {
+export interface LeaderboardResponse {
   last_update: number;
   next_update: number;
   total_players: number;
@@ -9,7 +9,7 @@ interface LeaderboardResponse {
   players: Player[];
 }
 
-interface Player {
+export interface Player {
   PlayerCardID: string;
   TitleID: string;
   IsBanned: boolean;

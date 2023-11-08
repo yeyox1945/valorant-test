@@ -8,7 +8,7 @@ export const PlayerStats = ({ player }: Props) => {
   return (
     <Link
       href={{
-        pathname: "matches",
+        pathname: "recent-matches",
         query: { name: player.gameName, tag: player.tagLine },
       }}
     >

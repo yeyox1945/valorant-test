@@ -1,3 +1,4 @@
+import { Player } from "../models/leaderboardResponse";
 import { PlayerStats } from "./playerStats";
 
 interface Props {
@@ -12,8 +13,8 @@ export function LeaderboardView({ players }: Props) {
         height: "100%",
       }}
     >
-      {players.map((player: Player) => (
-        <PlayerStats key={player.puuid} player={player} />
+      {players.map((player: Player, index: number) => (
+        <PlayerStats key={`${player.puuid}-${index}`} player={player} />
       ))}
     </div>
   );

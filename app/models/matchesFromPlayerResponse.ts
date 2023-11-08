@@ -1,31 +1,3 @@
-// interface MatchesResponse {
-//   status: number;
-//   data: Match[];
-// }
-
-// interface Match {}
-
-// interface Metadata {
-//   map: string;
-//   game_version: string;
-//   game_length: number;
-//   game_start: number;
-//   game_start_patched: string;
-//   rounds_played: number;
-//   mode: string;
-//   mode_id: string;
-//   queue: string;
-//   season_id: string;
-//   platform: string;
-//   matchid: "0cbfb515-9547-4cc4-8e8b-10a3852c81cb";
-//   premier_info: {
-//     tournament_id: null;
-//     matchup_id: null;
-//   };
-//   region: "na";
-//   cluster: "US Central (Illinois)";
-// }
-
 export interface MatchesResponse {
   status: number;
   data: Datum[];

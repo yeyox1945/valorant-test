@@ -1,38 +1,24 @@
-import {
-  MatchesResponse,
-  Blue,
-  Team,
-} from "../models/matchesFromPlayerResponse";
-
-const getRecentMatches = async (name: string, tag: string) => {
-  const res = await fetch(
-    `https://api.henrikdev.xyz/valorant/v3/matches/na/${name}/${tag}`,
-    { cache: "no-cache" }
-  );
-
-  if (!res.ok) throw new Error("Failed to fetch matches");
-
-  return res.json();
-};
+"use client";
+import { useGetRecentMatchesQuery } from "@/redux/api/playersApi";
+import { Team } from "../models/matchesFromPlayerResponse";
 
 interface Query {
   name: string;
   tag: string;
 }
 
-export default async function PlayerPage({
-  searchParams,
-}: {
-  searchParams: Query;
-}) {
-  const data: MatchesResponse = await getRecentMatches(
-    searchParams.name,
-    searchParams.tag
-  );
+export default function PlayerPage({ searchParams }: { searchParams: Query }) {
+  const { data, isLoading, isError } = useGetRecentMatchesQuery({
+    playerName: searchParams.name,
+    tag: searchParams.tag,
+  });
+
+  if (isLoading) return <p>Loading...</p>;
+  if (isError) return <p>Error</p>;
 
   return (
     <div>
-      {data.data.map((match) => {
+      {data!.data.map((match) => {
         const playerMatchInfo = match.players.all_players.find(
           (player) => player.name === searchParams.name
         );
