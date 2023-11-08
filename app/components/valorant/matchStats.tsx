@@ -1,6 +1,6 @@
-import { Datum, Team } from "../models/matchesFromPlayerResponse";
+import { Datum, Team } from "../../models/valorant/matchesFromPlayerResponse";
 import { Card, Avatar, Text, Group } from "@mantine/core";
-import { toHHMMSS } from "../utils/timeFormatter";
+import { toHHMMSS } from "../../utils/timeFormatter";
 
 interface Props {
   match: Datum;

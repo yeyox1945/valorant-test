@@ -8,7 +8,7 @@ import {
   rem,
 } from "@mantine/core";
 import { IconArrowDownRight, IconArrowUpRight } from "@tabler/icons-react";
-import { LeaderboardResponse } from "../models/leaderboardResponse";
+import { LeaderboardResponse } from "../../models/valorant/leaderboardResponse";
 
 const icons = {
   up: IconArrowUpRight,

@@ -1,5 +1,5 @@
 import { List } from "@mantine/core";
-import { Player } from "../models/leaderboardResponse";
+import { Player } from "../../models/valorant/leaderboardResponse";
 import { PlayerStats } from "./playerStats";
 
 interface Props {

@@ -1,6 +1,6 @@
 
-import { LeaderboardResponse } from '@/app/models/leaderboardResponse'
-import { MatchesResponse } from '@/app/models/matchesFromPlayerResponse'
+import { LeaderboardResponse } from '@/app/models/valorant/leaderboardResponse'
+import { MatchesResponse } from '@/app/models/valorant/matchesFromPlayerResponse'
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
 export const valorantApi = createApi({

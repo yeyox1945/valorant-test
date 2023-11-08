@@ -1,7 +1,7 @@
 "use client";
 import { useGetRecentMatchesQuery } from "@/redux/api/playersApi";
-import { Team } from "../models/matchesFromPlayerResponse";
-import MatchStats from "../components/matchStats";
+import { Team } from "../models/valorant/matchesFromPlayerResponse";
+import MatchStats from "../components/valorant/matchStats";
 import { Title } from "@mantine/core";
 
 interface Query {

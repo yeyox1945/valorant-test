@@ -1,10 +1,10 @@
 "use client";
-import { LeaderboardView } from "./components/leaderboard";
-import { GeneralInfo } from "./components/generalInfo";
+import { LeaderboardView } from "./components/valorant/leaderboard";
+import { GeneralInfo } from "./components/valorant/generalInfo";
 import { useGetLeaderboardQuery } from "../redux/api/playersApi";
 import { useEffect, useState, useRef, useCallback } from "react";
-import { Player } from "./models/leaderboardResponse";
-import { AppShell, Center, Loader, Title } from "@mantine/core";
+import { Player } from "./models/valorant/leaderboardResponse";
+import { AppShell, Center, Loader, Title, Text } from "@mantine/core";
 
 export default function HomePage() {
   // hooks
@@ -49,15 +49,16 @@ export default function HomePage() {
     setLoadingMore(false);
   }, [data, page]);
 
-  if (isLoading) return <p>Loading....</p>;
-  if (error) return <p> Something went wrong </p>;
+  if (isLoading) return <Text>Loading....</Text>;
+  if (error) return <Text> Something went wrong </Text>;
 
   return (
     <AppShell padding="xl">
       <AppShell.Main>
+        <Title>Leaderboard</Title>
+        <br />
         <GeneralInfo info={data!} />
-
-        <Title style={{ marginTop: 40 }}>Leaderboard</Title>
+        <br />
         {players && <LeaderboardView players={players} />}
         {!isLoading && players && !isLastPage && (
           <Center>

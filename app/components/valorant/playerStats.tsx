@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Player } from "../models/leaderboardResponse";
+import { Player } from "../../models/valorant/leaderboardResponse";
 import { Card, List, Title, Text, Group, Avatar } from "@mantine/core";
 import { IconAt, IconPhoneCall } from "@tabler/icons-react";
 
