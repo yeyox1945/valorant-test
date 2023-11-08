@@ -1,3 +1,4 @@
+import { List } from "@mantine/core";
 import { Player } from "../models/leaderboardResponse";
 import { PlayerStats } from "./playerStats";
 
@@ -7,15 +8,10 @@ interface Props {
 
 export function LeaderboardView({ players }: Props) {
   return (
-    <div
-      style={{
-        width: "100%",
-        height: "100%",
-      }}
-    >
+    <List spacing={"xl"} style={{ marginTop: 20, marginBottom: 20 }}>
       {players.map((player: Player, index: number) => (
         <PlayerStats key={`${player.puuid}-${index}`} player={player} />
       ))}
-    </div>
+    </List>
   );
 }

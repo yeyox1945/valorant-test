@@ -4,16 +4,19 @@ import { GeneralInfo } from "./components/generalInfo";
 import { useGetLeaderboardQuery } from "../redux/api/playersApi";
 import { useEffect, useState, useRef, useCallback } from "react";
 import { Player } from "./models/leaderboardResponse";
-import { Loader } from "@mantine/core";
+import { AppShell, Center, Loader, Title } from "@mantine/core";
 
 export default function HomePage() {
+  // hooks
   const { data, error, isLoading } = useGetLeaderboardQuery(null);
 
+  // states
   const [page, setPage] = useState(1);
   const [isLastPage, setLastPage] = useState(false);
   const [loadingMore, setLoadingMore] = useState(false);
   const [players, setPlayers] = useState<Player[]>([]);
 
+  // refs
   const observer = useRef<IntersectionObserver>();
   const loadingElementRef = useCallback(
     (loadingElement: HTMLSpanElement) => {
@@ -31,13 +34,18 @@ export default function HomePage() {
     [isLastPage]
   );
 
+  // effects
   useEffect(() => {
     setLoadingMore(true);
-    setPlayers(
-      data?.players?.filter(
-        (player: Player) => player.leaderboardRank <= page * 1000
-      )!
-    );
+    const filteredPlayers = data?.players?.filter(
+      (player: Player) => player.leaderboardRank <= page * 1000
+    )!;
+    setPlayers(filteredPlayers!);
+    if (
+      filteredPlayers?.length === data?.players.length &&
+      data?.players.length > 0
+    )
+      setLastPage(true);
     setLoadingMore(false);
   }, [data, page]);
 
@@ -45,12 +53,18 @@ export default function HomePage() {
   if (error) return <p> Something went wrong </p>;
 
   return (
-    <div>
-      <GeneralInfo info={data} />
-      {players && <LeaderboardView players={players} />}
-      {!isLoading && players && !isLastPage && (
-        <Loader ref={loadingElementRef} />
-      )}
-    </div>
+    <AppShell padding="xl">
+      <AppShell.Main>
+        <GeneralInfo info={data!} />
+
+        <Title style={{ marginTop: 40 }}>Leaderboard</Title>
+        {players && <LeaderboardView players={players} />}
+        {!isLoading && players && !isLastPage && (
+          <Center>
+            <Loader ref={loadingElementRef} />
+          </Center>
+        )}
+      </AppShell.Main>
+    </AppShell>
   );
 }
