@@ -8,13 +8,15 @@ import { SearchInput } from "../components/posts/searchBar";
 
 export default function PostsPage() {
   // states
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
   const [isLastPage, setLastPage] = useState(false);
   const [posts, setPosts] = useState<Post[]>([]);
+  const [searchQuery, setSearchQuery] = useState("");
 
   // hooks
   const { data, error, isLoading, isSuccess } = useGetPostsQuery({
     page: page.toString(),
+    search: searchQuery,
     limit: "5",
   });
 
@@ -35,11 +37,25 @@ export default function PostsPage() {
   );
 
   // effects
+  //   useEffect(() => {
+  //     if (data && isSuccess) {
+  //       setPosts([...posts, ...data]);
+  //     }
+  //     if (data?.length === 0 && page < 0) setLastPage(true);
+  //   }, [data]);
+
   useEffect(() => {
-    if (data && isSuccess) {
+    if (data) {
       setPosts([...posts, ...data]);
     }
-  }, [data]);
+    if (data?.length === 0 && page < 0) setLastPage(true);
+  }, [page]);
+
+  useEffect(() => {
+    if (data) {
+      setPosts(data);
+    }
+  }, [searchQuery]);
 
   if (isLoading) return <Text>Loading...</Text>;
   if (error) return <Text>Couldnt get posts</Text>;
@@ -49,7 +65,10 @@ export default function PostsPage() {
       <AppShell.Main>
         <Group justify="space-between">
           <Title>Posts</Title>
-          <SearchInput />
+          <SearchInput
+            value={searchQuery}
+            onChange={(event) => setSearchQuery(event.currentTarget.value)}
+          />
         </Group>
         <PostsView posts={posts || []} />
         {!isLastPage && (
