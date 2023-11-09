@@ -5,6 +5,8 @@ import { useGetLeaderboardQuery } from "../redux/api/playersApi";
 import { useEffect, useState, useRef, useCallback } from "react";
 import { Player } from "./models/valorant/leaderboardResponse";
 import { AppShell, Center, Loader, Title, Text } from "@mantine/core";
+import Loading from "./components/loading";
+import Error from "./components/error";
 
 export default function HomePage() {
   // hooks
@@ -49,8 +51,8 @@ export default function HomePage() {
     setLoadingMore(false);
   }, [data, page]);
 
-  if (isLoading) return <Text>Loading....</Text>;
-  if (error) return <Text> Something went wrong </Text>;
+  if (isLoading) return <Loading />;
+  if (error) return <Error />;
 
   return (
     <AppShell padding="xl">

@@ -3,6 +3,8 @@ import { useGetRecentMatchesQuery } from "@/redux/api/playersApi";
 import { Team } from "../models/valorant/matchesFromPlayerResponse";
 import MatchStats from "../components/valorant/matchStats";
 import { Title } from "@mantine/core";
+import Loading from "../components/loading";
+import Error from "../components/error";
 
 interface Query {
   name: string;
@@ -15,8 +17,8 @@ export default function PlayerPage({ searchParams }: { searchParams: Query }) {
     tag: searchParams.tag,
   });
 
-  if (isLoading) return <p>Loading...</p>;
-  if (isError) return <p>Error</p>;
+  if (isLoading) return <Loading />;
+  if (isError) return <Error />;
 
   return (
     <div>

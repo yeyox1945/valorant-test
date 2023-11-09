@@ -1,10 +1,13 @@
 "use client";
 
 import { useGetPostsQuery } from "@/redux/api/postsApi";
-import { AppShell, Title, Text, Center, Loader, Group } from "@mantine/core";
+import { AppShell, Title, Center, Loader, Group } from "@mantine/core";
 import PostsView from "../components/posts/posts";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { SearchInput } from "../components/posts/searchBar";
+import debounce from "lodash.debounce";
+import Loading from "../components/loading";
+import Error from "../components/error";
 
 export default function PostsPage() {
   // states
@@ -14,10 +17,10 @@ export default function PostsPage() {
   const [searchQuery, setSearchQuery] = useState("");
 
   // hooks
-  const { data, error, isLoading, isSuccess } = useGetPostsQuery({
+  const { data, error, isLoading } = useGetPostsQuery({
     page: page.toString(),
-    search: searchQuery,
     limit: "5",
+    search: searchQuery,
   });
 
   // refs
@@ -36,38 +39,47 @@ export default function PostsPage() {
     [isLastPage]
   );
 
+  const handleQueryChange = (value: string) => {
+    setSearchQuery(value);
+  };
+
+  const debouncedSearch = useCallback(debounce(handleQueryChange, 500), []);
+
   // effects
-  //   useEffect(() => {
-  //     if (data && isSuccess) {
-  //       setPosts([...posts, ...data]);
-  //     }
-  //     if (data?.length === 0 && page < 0) setLastPage(true);
-  //   }, [data]);
+  useEffect(() => {
+    return () => {
+      debouncedSearch.cancel();
+    };
+  });
 
   useEffect(() => {
     if (data) {
-      setPosts([...posts, ...data]);
+      if (data.length == 0 && page > 0) {
+        setLastPage(true);
+        return;
+      }
+      setTimeout(() => setPosts([...posts, ...data]), 500);
     }
-    if (data?.length === 0 && page < 0) setLastPage(true);
   }, [page]);
 
   useEffect(() => {
     if (data) {
-      setPosts(data);
+      console.log(data);
+      setTimeout(() => setPosts(data), 500);
     }
   }, [searchQuery]);
 
-  if (isLoading) return <Text>Loading...</Text>;
-  if (error) return <Text>Couldnt get posts</Text>;
+  if (isLoading) return <Loading />;
+  if (error) return <Error />;
 
   return (
     <AppShell padding="xl">
-      <AppShell.Main>
+      <AppShell.Main pb={50}>
         <Group justify="space-between">
           <Title>Posts</Title>
           <SearchInput
-            value={searchQuery}
-            onChange={(event) => setSearchQuery(event.currentTarget.value)}
+            type="text"
+            onChange={(e) => debouncedSearch(e.target.value)}
           />
         </Group>
         <PostsView posts={posts || []} />

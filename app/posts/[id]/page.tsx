@@ -1,5 +1,6 @@
 "use client";
-import PostItem from "@/app/components/posts/postItem";
+import Loading from "@/app/components/loading";
+import Error from "@/app/components/error";
 import { toHumanlyReadableTime } from "@/app/utils/timeFormatter";
 import { useGetPostByIdQuery } from "@/redux/api/postsApi";
 import { Avatar, Card, Group, Text, Title, Image } from "@mantine/core";
@@ -11,8 +12,8 @@ interface Params {
 export default function PostPage({ params }: { params: Params }) {
   const { data, error, isLoading } = useGetPostByIdQuery(params.id);
 
-  if (isLoading) return <Text>Loading...</Text>;
-  if (error) return <Text>Couldnt get posts</Text>;
+  if (isLoading) return <Loading />;
+  if (error) return <Error />;
 
   return (
     <Card radius={20} m={20} style={{ paddingBottom: 40 }}>

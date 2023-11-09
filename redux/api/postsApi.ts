@@ -8,7 +8,7 @@ export const postsApi = createApi({
     }),
     endpoints: (builder) => ({
         getPosts: builder.query<Post[], { page: string, limit: string, search: string }>({
-            query: ({ page, limit, search }) => `/posts?sortBy=createdAt&order=desc&search=${search}&page=${page}&limit=${limit}`
+            query: ({ page, limit, search }) => `/posts?sortBy=createdAt&order=desc&page=${page}&limit=${limit}&search=${search}`
         }),
         getPostById: builder.query<Post, string>({
             query: (id) => `/posts/${id}`
